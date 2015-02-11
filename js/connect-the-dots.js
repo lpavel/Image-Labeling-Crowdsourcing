@@ -3,8 +3,8 @@ var createImage = function(src, title) {
     img.src   = src;
     img.alt   = title;
     img.title = title;
-    img.height = 400;
-    img.width = 600;
+//    img.height = 400;
+//    img.width = 600;
     return img;
 };
 
@@ -27,12 +27,27 @@ var clickNumber = 0;
 var positions = [];
 
 $(document).ready(function() {
+
     choosePicture();
+
 });
 
 // main thing left to do after debugging
 function choosePicture() {
+    var index = 0; // index of image to be shown
+
+    $.ajax({
+	type: 'GET',
+	url: 'query.php',
+	dataType: 'json',
+	success: function (data) {
+	    index = data.value;
+	}
+    });
     
+    $('#canvas').css('background-image', 'url(' + images[index].src + ')');
+
+
 }
 
 function drawPoint(posX, posY) {
@@ -51,8 +66,7 @@ function drawPoint(posX, posY) {
     div = $('<div id="dot_container_' + clickNumber +
 	    '" order_value="' + clickNumber +
 	    '" class="dot_container' + class_active +
-	    '"><div class="dot"></div><div class="dot_number">' +
-	    (clickNumber + 1) + '</div></div>').css(css);
+	    '"><div class="dot"></div></div>').css(css);
     
     //add the dot to the page
     $('#canvas').append(div);
@@ -126,14 +140,10 @@ $( '#main' ).click(function(e){
     var posX = e.pageX - parentX;
     var posY = e.pageY - parentY;
 
-    /*
-    alert('parent: (x,y):'  + parentX + ',' + parentY +
-	  ' | page: (x,y):' + e.pageX + ',' + e.pageY +
-	  ' | pos: (x,y):'  + posX    + ',' + posY);
-    */
     positions.push({ X: posX, Y: posY });
 
     if(clickNumber == 0) {
+	// do nothing
 	drawPoint(posX, posY);
     }
     else {
