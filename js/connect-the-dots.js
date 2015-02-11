@@ -120,16 +120,17 @@ $('.dot_container').click(function(){
 $( '#main' ).click(function(e){
     // get coordinates first
     
-    var parentX = $(this).position().left;
-    var parentY = $(this).position().top;
+    var parentX = $(this).offset().left;
+    var parentY = $(this).offset().top;
     
     var posX = e.pageX - parentX;
     var posY = e.pageY - parentY;
 
+    /*
     alert('parent: (x,y):'  + parentX + ',' + parentY +
 	  ' | page: (x,y):' + e.pageX + ',' + e.pageY +
 	  ' | pos: (x,y):'  + posX    + ',' + posY);
-    
+    */
     positions.push({ X: posX, Y: posY });
 
     if(clickNumber == 0) {
