@@ -177,12 +177,10 @@ function sendAnnotation() {
 			 image_index: imageIndex,
 			 coordinates: positions};
 
-    var annotationDataJson = JSON.stringify(annotationData);
-
     $.ajax({
 	type: "POST",
 	url: "php/Annotation.php",
-	data: annotationDataJson,
+	data: annotationData,
 	dataType: 'json',
 	success: function(data) {
 	    console.log(data);

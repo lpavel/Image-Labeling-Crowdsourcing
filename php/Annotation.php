@@ -2,7 +2,8 @@
 
 $body = $_POST;
 
-var_dump(body);
+var_dump($body); 
+/*
 $bodyArray = json_decode($body, true);
 
 $image_index = $bodyArray['image_index'];
@@ -14,5 +15,5 @@ $file_name = "Image" . $image_index . "-" .
 $file = fopen($file_name, 'w+'); 
 
 fwrite($file, json_encode($bodyArray['coordinates']));
-fclose($file);
+fclose($file);*/
 ?>
