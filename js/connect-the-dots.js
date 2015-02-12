@@ -23,31 +23,42 @@ var images = [
 
 ];
 
+var minAnnotationPoints = 4;
 var clickNumber = 0;
 var positions = [];
+var session_id;
 
 $(document).ready(function() {
-
+    getSessionId();
     choosePicture();
 
 });
 
-// main thing left to do after debugging
-function choosePicture() {
-    var index = 0; // index of image to be shown
-
+function getSessionId() {
     $.ajax({
 	type: 'GET',
-	url: 'query.php',
+	url: 'php/SessionId.php',
 	dataType: 'json',
 	success: function (data) {
-	    index = data.value;
+	    session_id      = data.id;
+	}
+    });    
+}
+
+// main thing left to do after debugging
+function choosePicture() {
+    var index = 19; // index of image to be shown
+    var occurences = 2323; // occurences of the image
+    $.ajax({
+	type: 'GET',
+	url: 'php/RequestImage.php',
+	dataType: 'json',
+	success: function (data) {
+	    index      = data.id;
+	    occurences = data.occurences;
+	    $('#canvas').css('background-image', 'url(' + images[index].src + ')');
 	}
     });
-    
-    $('#canvas').css('background-image', 'url(' + images[index].src + ')');
-
-
 }
 
 function drawPoint(posX, posY) {
@@ -152,3 +163,15 @@ $( '#main' ).click(function(e){
     }
     clickNumber++;
 });
+
+$('#submitButton').click(function() {
+    if(positions.length < minAnnotationPoints) {
+	alert("You need at least 4 points to have a valid annotation");
+    }
+    sendAnnotation();
+    changeImage();
+});
+
+function sendAnnotation() {
+    
+}

@@ -13,8 +13,8 @@
       height:8px;
       width:8px;
       background-color:#ff0000;border-radius:4px;
-/*      float:left;
-      /*margin:12px -3px 0 0 ;*/
+      margin-top: -4px;
+      margin-left: -4px;
      }
 .dot_number {position:relative;float:left;}
 
@@ -25,24 +25,6 @@
 }
 
 .hidden_image {opacity:0;position:absolute;width:635px;height:841px;}
-
-/* active dot */
-/*
-.active .dot {
--webkit-animation: dotBackgroundColor .7s linear infinite alternate;
--moz-animation: dotBackgroundColor .7s linear infinite alternate;
--o-animation: dotBackgroundColor .7s linear infinite alternate;
-animation: dotBackgroundColor .7s linear infinite alternate;
-background-color:#f00;
-}
-.active .dot_number {
--webkit-animation: numberColor .7s linear infinite alternate;
--moz-animation: numberColor .7s linear infinite alternate;
--o-animation: numberColor .7s linear infinite alternate;
-animation: numberColor .7s linear infinite alternate;
-color:#f00;
-}
-*/
 
 /* active dot pulse */
 @-webkit-keyframes dotBackgroundColor{ from{background-color:#f00;}to{background-color:#000;}}
@@ -94,6 +76,3 @@ color:#f00;
 @-moz-keyframes		imgRotateRight{ from{-moz-transform:rotate(0deg);}to{-moz-transform:rotate(21deg);}}
 @-o-keyframes		imgRotateRight{ from{-o-transform:rotate(0deg);}to{-o-transform:rotate(21deg);}}
 @keyframes			imgRotateRight{ from{transform:rotate(0deg);}to{transform:rotate(21deg);}}
-
-
-
