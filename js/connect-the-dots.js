@@ -26,7 +26,8 @@ var images = [
 var minAnnotationPoints = 4;
 var clickNumber = 0;
 var positions = [];
-var session_id;
+var sessionId;
+var imageIndex;
 
 $(document).ready(function() {
     getSessionId();
@@ -40,23 +41,22 @@ function getSessionId() {
 	url: 'php/SessionId.php',
 	dataType: 'json',
 	success: function (data) {
-	    session_id      = data.id;
+	    sessionId      = data.id;
 	}
     });    
 }
 
 // main thing left to do after debugging
 function choosePicture() {
-    var index = 19; // index of image to be shown
     var occurences = 2323; // occurences of the image
     $.ajax({
 	type: 'GET',
 	url: 'php/RequestImage.php',
 	dataType: 'json',
 	success: function (data) {
-	    index      = data.id;
+	    imageIndex      = data.id;
 	    occurences = data.occurences;
-	    $('#canvas').css('background-image', 'url(' + images[index].src + ')');
+	    $('#canvas').css('background-image', 'url(' + images[imageIndex].src + ')');
 	}
     });
 }
@@ -169,9 +169,23 @@ $('#submitButton').click(function() {
 	alert("You need at least 4 points to have a valid annotation");
     }
     sendAnnotation();
-    changeImage();
+//    changeImage();
 });
 
 function sendAnnotation() {
-    
+    var annotationData = {session_id: sessionId,
+			 image_index: imageIndex,
+			 coordinates: positions};
+
+    var annotationDataJson = JSON.stringify(annotationData);
+
+    $.ajax({
+	type: "POST",
+	url: "php/Annotation.php",
+	data: annotationDataJson,
+	dataType: 'json',
+	success: function(data) {
+	    console.log(data);
+	}
+    });    
 }
