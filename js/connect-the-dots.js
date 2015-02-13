@@ -137,19 +137,28 @@ function drawLine(posX, posY) {
     });
 }
 
+
 // handle this only when the first dot is pressed
-$('.dot_container').click(function(e){
+$('#dot_container_0').click(function(e){
+    console.log("blabla");
+    // only this div needs to catch the click
+    e.stopImmediatePropagation();
+
     // if it has active then the last dot has been touched
     if ($(this).hasClass('active')) {
 	drawLine(positions[0].X, positions[0].Y);
     }
-
-    // only this div needs to catch the click
-    e.stopPropagation();
 });
 
+function callChildEvent() {
+    if ($(this).hasClass('active')) {
+	drawLine(positions[0].X, positions[0].Y);
+    }    
+}
+
 // when the image is clicked, join it with a line to the previous dot
-$( '#main' ).click(function(e){
+$( '#canvas' ).click(function(e){
+
     // get coordinates first
     
     var parentX = $(this).offset().left;
@@ -189,9 +198,10 @@ function sendAnnotation() {
 	data: annotationData,
 	dataType: 'json'
     }).done(function(data) {
-	console.log("the hell?");
 	if(data.response != null) {
 	    alert("Your validation code: " + data.response);
+	    $('#canvas').empty();
+	    cleanPositions();
 	}
 	else {
 	    prepareNewImage();
@@ -199,12 +209,16 @@ function sendAnnotation() {
     });    
 }
 
-function prepareNewImage() {
+function cleanPositions() {
     // first empty the array
     while(positions.length > 0) {
 	positions.pop();
     }
     clickNumber = 0;
+}
+
+function prepareNewImage() {
+    cleanPositions();
 
     // now remove all children fmor canvas
     $('#canvas').empty();
