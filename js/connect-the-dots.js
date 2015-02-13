@@ -32,7 +32,6 @@ var imageIndex;
 $(document).ready(function() {
     getSessionId();
     choosePicture();
-
 });
 
 function getSessionId() {
@@ -138,11 +137,14 @@ function drawLine(posX, posY) {
 }
 
 // handle this only when the first dot is pressed
-$('.dot_container').click(function(){
+$('.dot_container').click(function(e){
     // if it has active then the last dot has been touched
     if ($(this).hasClass('active')) {
 	drawLine(positions[0].X, positions[0].Y);
     }
+
+    // only this div needs to catch the click
+    e.stopPropagation();
 });
 
 // when the image is clicked, join it with a line to the previous dot
@@ -173,7 +175,6 @@ $('#submitButton').click(function() {
 	alert("You need at least 4 points to have a valid annotation");
     }
     sendAnnotation();
-//    changeImage();
 });
 
 function sendAnnotation() {
@@ -185,8 +186,26 @@ function sendAnnotation() {
 	type: "POST",
 	url: "php/Server.php",
 	data: annotationData,
-	dataType: 'json'
+	dataType: 'string'
     }).done(function(data) {
-	console.log(data);
+	if(data != null) {
+	    alert("Your validation code: " + data);
+	}
+	else {
+	    prepareNewImage();
+	}
     });    
+}
+
+function prepareNewImage() {
+    // first empty the array
+    while(positions.length > 0) {
+	positions.pop();
+    }
+
+    // now remove all children fmor canvas
+    $('#canvas').empty();
+    
+    // now choose picture and let it flow again
+    choosePicture();
 }
