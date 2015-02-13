@@ -5,6 +5,7 @@ require('ConfigLocal.php');
 class ImageDb {
 
     private $db_conn = null;
+
     /**                    
      * Constructor        
      * Opens a connection to the DB
@@ -15,7 +16,8 @@ class ImageDb {
 
         //check that everything is OK
         if ($this->db_conn->connect_error) {
-            die('Connect Error (' . $this->db_conn->connect_errno . ') ' . $this->db_conn->connect_error);
+            die('Connect Error (' . $this->db_conn->connect_errno . ') ' . 
+                $this->db_conn->connect_error);
         }
     }
 
@@ -79,6 +81,10 @@ class ImageDb {
         return $images;
     }
 
+    /**
+     * updates method for the database
+     * @params $id, $occurences
+     **/
     public function update($id, $occurences) {
         //create a prepared statement                                       
         if ( $stmt = $this->db_conn->prepare("UPDATE LabeledImage".
@@ -98,6 +104,10 @@ class ImageDb {
         }
     }
 
+    /**
+     * increment the number of occurences of a picture in the database
+     * @params object $image
+     **/
     public function incrementOccurences($id) {
         if ( $stmt = $this->db_conn->prepare("UPDATE LabeledImage".
                                              " SET occurences=occurences+1".
@@ -109,7 +119,6 @@ class ImageDb {
             $stmt->execute();
             //and close statement
             $stmt->close();
-            echo "Row updated";
         }
         else {
             echo "Row could not be updated";
