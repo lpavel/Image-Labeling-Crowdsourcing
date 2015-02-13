@@ -1,17 +1,14 @@
 <?php
 
-require('ConfigLocal.php');
-require('ImageDb.php');
-require('Image');
-require('Annotation');
+require("Image.php");
+require("Annotation.php");
 
-$db = new ImageDb();
-
+echo "first"; 
 switch( $_SERVER['REQUEST_METHOD'] ) {
     
 case 'GET': {
     $image = new Image();
-    echo $image->getMin();
+    echo json_encode($image->getMin());
     break;
 }
 case 'POST':
@@ -23,5 +20,4 @@ default:
     break;
 
 }
-
 ?>

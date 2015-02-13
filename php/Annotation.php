@@ -1,18 +1,17 @@
 <?php
 
-require('ImageDb.php');
-require('SessionDb.php');
+require_once("ImageDb.php");
+require_once("SessionDb.php");
 
 class Annotation {
     
     private $image_index = null;
     private $session_id  = null;
     private $coordinates = null;
-
-    $imageDb = null;
-    $sessionDb = null;
     
-    // make sure to call it with $_POST
+    private $imageDb = null;
+    private $sessionDb = null;
+    
     public function __construct($body) {
         $image_index = $body['image_index'];
         $session_id  = $body['session_id'];
@@ -50,5 +49,5 @@ class Annotation {
         }
         return null;
     }
-
+}
 ?>

@@ -1,11 +1,11 @@
 <?php
 
-require('ConfigLocal.php');
+require("ConfigLocal.php");
 
 class SessionDb {
     
     private $db_conn = null;
-    $session_id = null;
+    private $session_id = null;
     
     /**                    
      * Constructor        
@@ -23,7 +23,7 @@ class SessionDb {
                 $this->db_conn->connect_error);
         }
     }
-
+        
     /**
      * Destructor
      * Closes the DB connection opened in constructor
@@ -56,7 +56,7 @@ class SessionDb {
         else {
             echo "Row could not be updated";
         }
-    }    
+    }
 
     /**
      * returns the number of completed tasks by a person
@@ -81,8 +81,6 @@ class SessionDb {
             }
         }
         return $count;
-
     }
 }
-
 ?>
