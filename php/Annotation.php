@@ -42,7 +42,6 @@ class Annotation {
 
     private function updateSessionDb() {
         if($this->sessionDb->tasksCompleted() > 0) {
-            echo "got here";
             $this->sessionDb->incrementTask();
         }
         else {
@@ -57,4 +56,3 @@ class Annotation {
         return null;
     }
 }
-?>

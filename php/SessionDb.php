@@ -14,7 +14,6 @@ class SessionDb {
     public function __construct($session_id) {
         $this->session_id = $session_id;
 
-        var_dump($this->session_id);
         //Open DB connection       
         $this->db_conn = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
@@ -42,11 +41,9 @@ class SessionDb {
      * increment the number of occurences of a picture in the database
      **/
     public function incrementTask() {
-        echo "alabala";
         if ( $stmt = $this->db_conn->prepare("UPDATE Sessions".
                                              " SET count=count+1".
-                                             " WHERE id=?") ) {            
-            echo "------------------------------";
+                                             " WHERE session_id=?") ) {            
             // bind parameters for markers                          
             $stmt->bind_param("s", $this->session_id );
             
@@ -55,6 +52,12 @@ class SessionDb {
             //and close statement
             $stmt->close();
         }
+        else {
+            printf('errno: %d, error: %s', 
+                   $this->db_conn->errno, 
+                   $this->db_conn->error);
+            die;
+        }
     }
     
     /**
@@ -62,7 +65,6 @@ class SessionDb {
      **/
     public function tasksCompleted() {
         $count = 0;
-        //        var_dump($this->session_id);
         if ($stmt = $this->db_conn->prepare("SELECT count".
                                             " FROM Sessions WHERE ".
                                             " session_id = ?")) {
@@ -85,7 +87,6 @@ class SessionDb {
 
     public function insertTask() {
         if ($stmt = $this->db_conn->prepare("INSERT INTO Sessions".
-                                            " (session_id, count) ".
                                             " VALUES(?,1)")) {
             $stmt->bind_param("s", $this->session_id);
 
@@ -96,4 +97,3 @@ class SessionDb {
         }        
     }
 }
-?>

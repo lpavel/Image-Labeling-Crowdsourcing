@@ -30,4 +30,3 @@ class Image {
                      "occurences" => $this->min_value);
     }   
 }
-?>

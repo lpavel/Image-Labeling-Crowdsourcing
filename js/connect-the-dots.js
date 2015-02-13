@@ -187,10 +187,11 @@ function sendAnnotation() {
 	type: "POST",
 	url: "php/Server.php",
 	data: annotationData,
-	dataType: 'string'
+	dataType: 'json'
     }).done(function(data) {
-	if(data != null) {
-	    alert("Your validation code: " + data);
+	console.log("the hell?");
+	if(data.response != null) {
+	    alert("Your validation code: " + data.response);
 	}
 	else {
 	    prepareNewImage();
@@ -203,6 +204,7 @@ function prepareNewImage() {
     while(positions.length > 0) {
 	positions.pop();
     }
+    clickNumber = 0;
 
     // now remove all children fmor canvas
     $('#canvas').empty();

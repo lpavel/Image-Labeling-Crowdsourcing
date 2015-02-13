@@ -174,4 +174,3 @@ class ImageDb {
                      "occurences" => $min_value);
     }
 }
-?>

@@ -11,11 +11,10 @@ case 'GET':
     break;
 case 'POST':
     $annotation  = new Annotation($_POST);
-    echo $annotation->saveAnnotation();
+    echo json_encode(array( "response" => $annotation->saveAnnotation()));
     break;
 default:
     throw new Exception('Invalid request \n');
     break;
 
 }
-?>
