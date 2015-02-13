@@ -1,6 +1,6 @@
 <?php
 
-require("ConfigLocal.php");
+require_once("ConfigLocal.php");
 
 class SessionDb {
     
@@ -42,9 +42,11 @@ class SessionDb {
      * increment the number of occurences of a picture in the database
      **/
     public function incrementTask() {
+        echo "alabala";
         if ( $stmt = $this->db_conn->prepare("UPDATE Sessions".
                                              " SET count=count+1".
-                                             " WHERE id='?'") ) {            
+                                             " WHERE id=?") ) {            
+            echo "------------------------------";
             // bind parameters for markers                          
             $stmt->bind_param("s", $this->session_id );
             
@@ -52,10 +54,6 @@ class SessionDb {
             $stmt->execute();
             //and close statement
             $stmt->close();
-            echo "Row updated";
-        }
-        else {
-            echo "Row could not be updated";
         }
     }
     
@@ -64,11 +62,14 @@ class SessionDb {
      **/
     public function tasksCompleted() {
         $count = 0;
-        $escaped_id = mysqli->real_escape_string($this->session_id);
+        //        var_dump($this->session_id);
         if ($stmt = $this->db_conn->prepare("SELECT count".
                                             " FROM Sessions WHERE ".
-                                            " session_id = '$escaped_id'")) {
+                                            " session_id = ?")) {
 
+            // bind parameters for markers                          
+            $stmt->bind_param("s", $this->session_id );
+            
             if (!$stmt->execute()) {
                 echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
