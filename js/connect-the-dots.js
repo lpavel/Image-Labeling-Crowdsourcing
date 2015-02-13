@@ -39,10 +39,12 @@ function getSessionId() {
     $.ajax({
 	type: 'GET',
 	url: 'php/SessionId.php',
-	dataType: 'json',
-	success: function (data) {
-	    sessionId      = data.id;
-	}
+	dataType: 'json'
+    }).done(function (data) {
+	sessionId      = data.id;
+	console.log();
+    }).fail(function() {
+	alert("something went very bad. I'm sorry");
     });    
 }
 
@@ -52,12 +54,14 @@ function choosePicture() {
     $.ajax({
 	type: 'GET',
 	url: 'php/RequestImage.php',
-	dataType: 'json',
-	success: function (data) {
-	    imageIndex      = data.id;
-	    occurences = data.occurences;
-	    $('#canvas').css('background-image', 'url(' + images[imageIndex].src + ')');
-	}
+	dataType: 'json'
+    }).done(function (data) {
+	imageIndex      = data.id;
+	occurences = data.occurences;
+	$('#canvas').css('background-image', 
+			 'url(' + images[imageIndex].src + ')');
+    }).fail(function() {
+	alert("something went very bad. I'm sorry");
     });
 }
 
@@ -181,9 +185,8 @@ function sendAnnotation() {
 	type: "POST",
 	url: "php/Annotation.php",
 	data: annotationData,
-	dataType: 'json',
-	success: function(data) {
-	    console.log(data);
-	}
+	dataType: 'json'
+    }).done(function(data) {
+	console.log(data);
     });    
 }

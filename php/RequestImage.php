@@ -1,7 +1,8 @@
 <?php
 
 include 'ConfigLocal.php';
-
+require('Db.php');
+/*
 $servername = DB_SERVER;
 $username   = DB_USER;
 $password   = DB_PASS;
@@ -36,7 +37,24 @@ $conn->close();
 
 $info = array("id"         => $min_position,
               "occurences" => $min_value);
+*/
 
-echo json_encode($info);
+
+$db = new Db();
+
+switch( $_SERVER['REQUEST_METHOD'] ) {
+    
+case 'GET': {
+    echo json_encode($db->retrieveMin());
+    break;
+}
+case 'POST':
+    $db->insert( $_POST );
+    break;
+default:
+    throw new Exception('Invalid request \n');
+    break;
+
+}
 
 ?>
