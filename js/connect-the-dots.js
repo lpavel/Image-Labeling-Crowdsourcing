@@ -184,7 +184,9 @@ $('#submitButton').click(function() {
     if(positions.length < minAnnotationPoints) {
 	alert("You need at least 4 points to have a valid annotation");
     }
-    sendAnnotation();
+    else {
+	sendAnnotation();
+    }
 });
 
 function sendAnnotation() {
