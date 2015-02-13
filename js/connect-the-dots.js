@@ -43,7 +43,7 @@ function getSessionId() {
 	sessionId      = data.id;
 	console.log();
     }).fail(function() {
-	alert("something went very bad. I'm sorry");
+	alert("something went very bad. Couldn't get session id");
     });    
 }
 
@@ -59,8 +59,9 @@ function choosePicture() {
 	occurences = data.occurences;
 	$('#canvas').css('background-image', 
 			 'url(' + images[imageIndex].src + ')');
-    }).fail(function() {
-	alert("something went very bad. I'm sorry");
+    }).fail(function(ts) {
+	alert("something went very bad. Couldn't choose picture" + 
+	     ts.responseText);
     });
 }
 

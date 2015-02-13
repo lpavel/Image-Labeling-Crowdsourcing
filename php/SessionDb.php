@@ -13,7 +13,8 @@ class SessionDb {
      */
     public function __construct($session_id) {
         $this->session_id = $session_id;
-        
+
+        var_dump($this->session_id);
         //Open DB connection       
         $this->db_conn = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
@@ -43,9 +44,9 @@ class SessionDb {
     public function incrementTask() {
         if ( $stmt = $this->db_conn->prepare("UPDATE Sessions".
                                              " SET count=count+1".
-                                             " WHERE id=?") ) {            
+                                             " WHERE id='?'") ) {            
             // bind parameters for markers                          
-            $stmt->bind_param("d", $session_id );
+            $stmt->bind_param("s", $this->session_id );
             
             // execute query
             $stmt->execute();
@@ -57,30 +58,41 @@ class SessionDb {
             echo "Row could not be updated";
         }
     }
-
+    
     /**
      * returns the number of completed tasks by a person
      **/
     public function tasksCompleted() {
         $count = 0;
+        $escaped_id = mysqli->real_escape_string($this->session_id);
         if ($stmt = $this->db_conn->prepare("SELECT count".
                                             " FROM Sessions WHERE ".
-                                            " session_id = ?")) {
-            $stmt->bind_param("d", $session_id);
+                                            " session_id = '$escaped_id'")) {
+
             if (!$stmt->execute()) {
                 echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
-
+            
             $stmt->bind_result($thisCount);
             
             if ($stmt->fetch()) {
                 $count = $thisCount;
             }
-            else {
-                echo "Not enough data gotten";
-            }
         }
         return $count;
+    }
+
+    public function insertTask() {
+        if ($stmt = $this->db_conn->prepare("INSERT INTO Sessions".
+                                            " (session_id, count) ".
+                                            " VALUES(?,1)")) {
+            $stmt->bind_param("s", $this->session_id);
+
+            // execute query             
+            $stmt->execute();
+            //and close statement
+            $stmt->close();            
+        }        
     }
 }
 ?>

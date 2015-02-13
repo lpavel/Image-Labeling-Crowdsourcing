@@ -3,14 +3,12 @@
 require("Image.php");
 require("Annotation.php");
 
-echo "first"; 
 switch( $_SERVER['REQUEST_METHOD'] ) {
     
-case 'GET': {
+case 'GET':
     $image = new Image();
     echo json_encode($image->getMin());
     break;
-}
 case 'POST':
     $annotation  = new Annotation($_POST);
     echo $annotation->saveAnnotation();

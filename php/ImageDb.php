@@ -40,7 +40,7 @@ class ImageDb {
     public function insert( $params) {
 
         //create a prepared statement                                       
-        if ( $stmt = $this->db_conn->prepare("INSERT INTO LabeledImage".
+        if ( $stmt = $this->db_conn->prepare("INSERT INTO LabeledImages".
                                              " (id,occurences)".
                                              " VALUES(?, ?)") ) {            
             // bind parameters for markers                          
@@ -87,7 +87,7 @@ class ImageDb {
      **/
     public function update($id, $occurences) {
         //create a prepared statement                                       
-        if ( $stmt = $this->db_conn->prepare("UPDATE LabeledImage".
+        if ( $stmt = $this->db_conn->prepare("UPDATE LabeledImages".
                                              " SET occurences=?".
                                              " WHERE id=?") ) {            
             // bind parameters for markers                          
@@ -109,11 +109,11 @@ class ImageDb {
      * @params object $image
      **/
     public function incrementOccurences($id) {
-        if ( $stmt = $this->db_conn->prepare("UPDATE LabeledImage".
+        if ( $stmt = $this->db_conn->prepare("UPDATE LabeledImages".
                                              " SET occurences=occurences+1".
                                              " WHERE id=?") ) {            
             // bind parameters for markers                          
-            $stmt->bind_param("d", $params['id'] );
+            $stmt->bind_param("d", $id );
             
             // execute query
             $stmt->execute();
@@ -164,7 +164,6 @@ class ImageDb {
         
 
         $images = $this->retrieve();
-        //        var_dump($images);
         foreach($images as $image) {
             if($min_value > $image["occurences"]) {
                 $min_value = $image["occurences"];

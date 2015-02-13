@@ -13,38 +13,45 @@ class Annotation {
     private $sessionDb = null;
     
     public function __construct($body) {
-        $image_index = $body['image_index'];
-        $session_id  = $body['session_id'];
-        $coordinates = $body['coordinates'];
+        $this->image_index = $body['image_index'];
+        $this->session_id  = $body['session_id'];
+        $this->coordinates = $body['coordinates'];
     
-        $sessionDb = new SessionDb($session_id);
-        $imageDb = new ImageDb();
+        $this->sessionDb = new SessionDb($this->session_id);
+        $this->imageDb = new ImageDb();
     }
     
     public function saveAnnotation() {
-        writeFile();
-        updateImageDb();
-        updateSessionsDb();
-        return isTaskCompleted();
+
+        self::writeFile();
+        self::updateImageDb();
+        self::updateSessionDb();
+        return self::isTaskCompleted();
     }
     
     private function writeFile() {
         $file_name = "/home/lpavel/results/Image" . 
-                   $image_index . "-" . $session_id . ".json"; 
+                   $this->image_index . "-" . $this->session_id . ".json"; 
         
-        file_put_contents($file_name, json_encode($coordinates));
+        file_put_contents($file_name, json_encode($this->coordinates));
     }
     
     private function updateImageDb() {
-        $imageDb->incrementOccurences($image_index);
+        $this->imageDb->incrementOccurences($this->image_index);
     }
 
     private function updateSessionDb() {
-        $sessionDb->incrementTasks();
+        echo "----------TasksCompleted:" . $this->sessionDb->tasksCompleted();
+        if($this->sessionDb->tasksCompleted() > 0) {
+            $this->sessionDb->incrementTasks();
+        }
+        else {
+            $this->sessionDb->insertTask();
+        }
     }
 
-    private function isTaskCompleted() {
-        if($sessionDb->tasksCompleted() == 3) {
+    private function isTaskCompleted() {        
+        if($this->sessionDb->tasksCompleted() == 3) {
             return rand(1000,9999) . "." . rand(1000,9999);
         }
         return null;
