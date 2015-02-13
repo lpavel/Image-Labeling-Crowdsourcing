@@ -53,7 +53,7 @@ function choosePicture() {
     var occurences = 2323; // occurences of the image
     $.ajax({
 	type: 'GET',
-	url: 'php/RequestImage.php',
+	url: 'php/Server.php',
 	dataType: 'json'
     }).done(function (data) {
 	imageIndex      = data.id;
@@ -183,7 +183,7 @@ function sendAnnotation() {
 
     $.ajax({
 	type: "POST",
-	url: "php/Annotation.php",
+	url: "php/Server.php",
 	data: annotationData,
 	dataType: 'json'
     }).done(function(data) {
