@@ -26,7 +26,13 @@ class Image {
             }
         }
         
+        // get size of image here
+        $imagePath = '../img/Image' . $this->min_position . '.jpg';
+        list($imgWidth, $imgHeight) = getimagesize($imagePath);        
+
         return array("id"         => $this->min_position,
-                     "occurences" => $this->min_value);
-    }   
+                     "occurences" => $this->min_value,
+                     "height"     => $imgHeight,
+                     "width"      => $imgWidth);
+    }
 }

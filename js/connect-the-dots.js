@@ -55,10 +55,15 @@ function choosePicture() {
 	url: 'php/Server.php',
 	dataType: 'json'
     }).done(function (data) {
-	imageIndex      = data.id;
+	imageIndex = data.id;
 	occurences = data.occurences;
+	
+	var imageHeight = data.height;
+	var imageWidth  = data.width; 
+	
 	$('#canvas').css('background-image', 
 			 'url(' + images[imageIndex].src + ')');
+	$('#canvas').height(imageHeight).width(imageWidth);
     }).fail(function(ts) {
 	alert("something went very bad. Couldn't choose picture" + 
 	     ts.responseText);

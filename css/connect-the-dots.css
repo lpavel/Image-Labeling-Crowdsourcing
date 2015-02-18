@@ -2,13 +2,15 @@
 /*#canvas {width:635px;height:841px;border:1px solid #ccc;position:relative;background-color:#fff;}
  */
 #canvas {
-    width:640px;
-    height:480px;
+/*    width:640px;
+    height:480px;*/
     border:1px solid #ccc;
     position:relative;
     background-color:#fff;
     background-repeat:no-repeat;
     background-position: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .point {position:absolute;height:1px;width:1px;background-color:#c00;}
