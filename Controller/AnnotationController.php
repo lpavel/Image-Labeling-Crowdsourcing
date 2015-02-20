@@ -1,7 +1,9 @@
 <?php
 
-require("Image.php");
-require("Annotation.php");
+$path_to_model = '../Model/'
+
+require($path_to_model . 'Image.php');
+require($path_to_model . 'Annotation.php');
 
 switch( $_SERVER['REQUEST_METHOD'] ) {
     
@@ -16,5 +18,4 @@ case 'POST':
 default:
     throw new Exception('Invalid request \n');
     break;
-
 }

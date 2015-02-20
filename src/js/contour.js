@@ -18,14 +18,15 @@ var images = [
     createImage("img/Image8.jpg", "Image8"),
     createImage("img/Image9.jpg", "Image9"),
     createImage("img/Image10.jpg", "Image10")
-
 ];
 
 var minAnnotationPoints = 4;
 var clickNumber = 0;
-var positions = [];
+var annotations = [];
 var sessionId;
 var imageIndex;
+var currentAnnotation = 0;
+var maxDistance = 2; // max distance at which 2 points are considered the same
 
 $(document).ready(function() {
     getSessionId();
@@ -35,7 +36,7 @@ $(document).ready(function() {
 function getSessionId() {
     $.ajax({
 	type: 'GET',
-	url: 'php/SessionId.php',
+	url: '../Controller/SessionId.php',
 	dataType: 'json'
     }).done(function (data) {
 	sessionId      = data.id;
@@ -50,7 +51,7 @@ function choosePicture() {
     var occurences = 2323; // occurences of the image
     $.ajax({
 	type: 'GET',
-	url: 'php/Server.php',
+	url: '../Controller/AnnotationController.php',
 	dataType: 'json'
     }).done(function (data) {
 	imageIndex = data.id;
@@ -93,8 +94,8 @@ function drawPoint(posX, posY) {
 function drawLine(posX, posY) {
     
     //draw line from previous dot to this dot
-    x1 = positions[clickNumber - 1].X;
-    y1 = positions[clickNumber - 1].Y;
+    x1 = annotations[currentAnnotation][clickNumber - 1].X;
+    y1 = annotations[currentAnnotation][clickNumber - 1].Y;
     x2 = posX;
     y2 = posY;
     
@@ -149,14 +150,14 @@ $('#dot_container_0').click(function(e){
 
     // if it has active then the last dot has been touched
     if ($(this).hasClass('active')) {
-	drawLine(positions[0].X, positions[0].Y);
+	drawLine(annotations[currentAnnotation][0].X, 
+		 annotations[currentAnnotation][0].Y);
     }
 });
 
-function callChildEvent() {
-    if ($(this).hasClass('active')) {
-	drawLine(positions[0].X, positions[0].Y);
-    }    
+function isFirstPoint(posX,posY, positions) {
+    return ((posX - positions[0].X) < maxDistance) &&
+	((posY - positions[0].Y) < maxDistance);
 }
 
 // when the image is clicked, join it with a line to the previous dot
@@ -170,21 +171,36 @@ $( '#canvas' ).click(function(e){
     var posX = e.pageX - parentX;
     var posY = e.pageY - parentY;
 
-    positions.push({ X: posX, Y: posY });
 
     if(clickNumber == 0) {
-	// do nothing
+	positions= [];
+	positions.push({ X: posX, Y: posY });
+	annotations.push(positions);
 	drawPoint(posX, posY);
     }
     else {
-	drawPoint(posX, posY);
-	drawLine(posX, posY);
+	annotations[currentAnnotation].push({ X: posX, Y: posY });
+	if(isFirstPoint(posX, posY, annotations[currentAnnotation])) {
+	    // need at least 4 points for a contour
+	    if(annotations[currentAnnotation].length() < minAnnotationPoints) {
+		alert("You need at least 4 points to have a valid annotation");
+	    }
+	    else {
+		drawLine(posX, posY);
+		clickNumber = 0;
+		++currentAnnotation;
+	    }
+	}
+	else {
+	    drawPoint(posX, posY);
+	    drawLine(posX, posY);
+	    clickNumber++;
+	}
     }
-    clickNumber++;
 });
 
 $('#submitButton').click(function() {
-    if(positions.length < minAnnotationPoints) {
+    if(annotations.length < minAnnotationPoints) {
 	alert("You need at least 4 points to have a valid annotation");
     }
     else {
@@ -195,18 +211,18 @@ $('#submitButton').click(function() {
 function sendAnnotation() {
     var annotationData = {session_id: sessionId,
 			 image_index: imageIndex,
-			 coordinates: positions};
+			 coordinates: annotations};
 
     $.ajax({
 	type: "POST",
-	url: "php/Server.php",
+	url: "../Controller/AnnotationController.php",
 	data: annotationData,
 	dataType: 'json'
     }).done(function(data) {
 	if(data.response != null) {
 	    alert("Your validation code: " + data.response);
 	    $('#canvas').empty();
-	    cleanPositions();
+	    cleanAnnotations();
 	}
 	else {
 	    prepareNewImage();
@@ -214,16 +230,16 @@ function sendAnnotation() {
     });    
 }
 
-function cleanPositions() {
+function cleanAnnotations() {
     // first empty the array
-    while(positions.length > 0) {
-	positions.pop();
+    while(annotations.length > 0) {
+	annotations.pop();
     }
     clickNumber = 0;
 }
 
 function prepareNewImage() {
-    cleanPositions();
+    cleanAnnotations();
 
     // now remove all children fmor canvas
     $('#canvas').empty();
