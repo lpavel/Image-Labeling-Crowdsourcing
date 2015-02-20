@@ -1,43 +1,43 @@
 <?php
 
-require_once("AnnotationDb.php");
+require_once("DotsDb.php");
 require_once("SessionDb.php");
 
-class Annotation {
+class Dots {
     
     private $image_index = null;
     private $session_id  = null;
     private $coordinates = null;
-    
-    private $annotationDb = null;
+
+    private $dotsDb = null;
     private $sessionDb = null;
-    
+
     public function __construct($body) {
         $this->image_index = $body['image_index'];
         $this->session_id  = $body['session_id'];
         $this->coordinates = $body['coordinates'];
     
         $this->sessionDb = new SessionDb($this->session_id);
-        $this->annotationDb = new AnnotationDb();
+        $this->dotsDb = new DotsDb();
     }
-    
-    public function saveAnnotation() {
+
+    public function saveDots() {
 
         self::writeFile();
-        self::updateAnnotationDb();
+        self::updateDotsDb();
         self::updateSessionDb();
         return self::isTaskCompleted();
     }
     
     private function writeFile() {
-        $file_name = "/home/lpavel/resultsContours/Image" . 
+        $file_name = "/home/lpavel/resultsDots/Image" . 
                    $this->image_index . "-" . $this->session_id . ".json"; 
         
         file_put_contents($file_name, json_encode($this->coordinates));
     }
     
-    private function updateAnnotationDb() {
-        $this->annotationDb->incrementOccurences($this->image_index);
+    private function updateDotsDb() {
+        $this->dotsDb->incrementOccurences($this->image_index);
     }
 
     private function updateSessionDb() {
@@ -58,11 +58,11 @@ class Annotation {
 
     /**
      * Finds the least processed image
-     * @return array($index, $occurences)
+     * @return json encoded array($index, $occurences)
      */
     public function getMin() {
-        $image = $this->annotationDb->retrieveMin();
-
+        $image = $this->dotsDb->retrieveMin();
+        
         // get size of image here
         $imagePath = '../img/Image' . $image['id'] . '.jpg';
         list($imgWidth, $imgHeight) = getimagesize($imagePath);        
@@ -72,5 +72,4 @@ class Annotation {
                      "height"     => $imgHeight,
                      "width"      => $imgWidth);
     }
-
 }

@@ -2,7 +2,7 @@
 
 require('../ConfigLocal.php');
 
-class ImageDb {
+class AnnotationDb {
 
     private $db_conn = null;
 

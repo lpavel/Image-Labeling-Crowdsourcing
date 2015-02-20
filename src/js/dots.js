@@ -133,7 +133,7 @@ function sendDots() {
     $.ajax({
 	type: "POST",
 	url: "../Controller/DotsController.php",
-	data: annotationData,
+	data: dotsData,
 	dataType: 'json'
     }).done(function(data) {
 	if(data.response != null) {
