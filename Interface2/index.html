@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta name="description" content="Privacy Image Detector: Put dots on what you consider private" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dots.css" />
+    
+    <title>Privacy Image Detector</title>
+  </head>
+  
+  <body>
+    
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+      <header class="inner">
+        <h1 id="project_title">Privacy Image Detector</h1>
+        <h2 id="project_tagline">Click on private information contained in the picture</h2>
+	
+      </header>
+    </div>
+    
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+	<div id="directions">
+	  <p>Please label private information contained in this image.
+	    You can click on as many things as you want.
+	  </p>
+	  <p>Information considered private: Faces, ID cards, Credit Cards, Bills, 
+	    Documents, Content on computer screens, Phone numbers, Online account names,
+	    Date of birth, etc.
+	  </p>
+	</div>
+	<div id="main" role="main" class="clearfix">
+	  <div id="canvas"> </div>
+	  <button id="submitButton" type="button"> Submit Results</button>
+	</div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright"> The project is built of 
+	  <a href="https://github.com/caitriona/connect-the-dots">
+	    connect the dots
+	  </a>
+	</p>
+      </footer>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/dots.js"></script> 
+    
+    <script type="text/javascript">
+      
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-1307305-2']);
+      _gaq.push(['_trackPageview']);
+      
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+      })();
+      
+    </script>
+    
+  </body>
+</html>
