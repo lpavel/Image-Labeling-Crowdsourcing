@@ -3,8 +3,6 @@ var createImage = function(src, title) {
     img.src   = src;
     img.alt   = title;
     img.title = title;
-//    img.height = 400;
-//    img.width = 600;
     return img;
 };
 
