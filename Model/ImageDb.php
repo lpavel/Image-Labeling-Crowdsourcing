@@ -1,6 +1,6 @@
 <?php
 
-require('ConfigLocal.php');
+require('../ConfigLocal.php');
 
 class ImageDb {
 

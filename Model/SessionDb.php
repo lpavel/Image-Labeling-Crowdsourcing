@@ -1,6 +1,6 @@
 <?php
 
-require_once("ConfigLocal.php");
+require_once("../ConfigLocal.php");
 
 class SessionDb {
     

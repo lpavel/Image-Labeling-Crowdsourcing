@@ -7,17 +7,17 @@ var createImage = function(src, title) {
 };
 
 var images = [
-    createImage("img/Image0.jpg", "Image0"),
-    createImage("img/Image1.jpg", "Image1"),
-    createImage("img/Image2.jpg", "Image2"),
-    createImage("img/Image3.jpg", "Image3"),
-    createImage("img/Image4.jpg", "Image4"),
-    createImage("img/Image5.jpg", "Image5"),
-    createImage("img/Image6.jpg", "Image6"),
-    createImage("img/Image7.jpg", "Image7"),
-    createImage("img/Image8.jpg", "Image8"),
-    createImage("img/Image9.jpg", "Image9"),
-    createImage("img/Image10.jpg", "Image10")
+    createImage("../img/Image0.jpg",  "Image0"),
+    createImage("../img/Image1.jpg",  "Image1"),
+    createImage("../img/Image2.jpg",  "Image2"),
+    createImage("../img/Image3.jpg",  "Image3"),
+    createImage("../img/Image4.jpg",  "Image4"),
+    createImage("../img/Image5.jpg",  "Image5"),
+    createImage("../img/Image6.jpg",  "Image6"),
+    createImage("../img/Image7.jpg",  "Image7"),
+    createImage("../img/Image8.jpg",  "Image8"),
+    createImage("../img/Image9.jpg",  "Image9"),
+    createImage("../img/Image10.jpg", "Image10")
 ];
 
 var minAnnotationPoints = 4;
@@ -26,7 +26,7 @@ var annotations = [];
 var sessionId;
 var imageIndex;
 var currentAnnotation = 0;
-var maxDistance = 2; // max distance at which 2 points are considered the same
+var maxDistance = 5; // max distance at which 2 points are considered the same
 
 $(document).ready(function() {
     getSessionId();
@@ -92,7 +92,6 @@ function drawPoint(posX, posY) {
 }
 
 function drawLine(posX, posY) {
-    
     //draw line from previous dot to this dot
     x1 = annotations[currentAnnotation][clickNumber - 1].X;
     y1 = annotations[currentAnnotation][clickNumber - 1].Y;
@@ -155,9 +154,18 @@ $('#dot_container_0').click(function(e){
     }
 });
 
-function isFirstPoint(posX,posY, positions) {
-    return ((posX - positions[0].X) < maxDistance) &&
-	((posY - positions[0].Y) < maxDistance);
+function isFirstPoint(posX,posY) {
+    firstX = annotations[currentAnnotation][0].X;
+    firstY = annotations[currentAnnotation][0].Y;
+    console.log('posX:' + posX + ' | posY:' + posY + ' | firstX:' +
+	       firstX + ' | firstY:' + firstY);
+    if((Math.abs(posX - firstX) < maxDistance) &&
+       (Math.abs(posY - firstY) < maxDistance)) {
+	return true;
+    }
+    else {
+	return false;
+    }
 }
 
 // when the image is clicked, join it with a line to the previous dot
@@ -177,34 +185,51 @@ $( '#canvas' ).click(function(e){
 	positions.push({ X: posX, Y: posY });
 	annotations.push(positions);
 	drawPoint(posX, posY);
+	++clickNumber;
     }
     else {
-	annotations[currentAnnotation].push({ X: posX, Y: posY });
-	if(isFirstPoint(posX, posY, annotations[currentAnnotation])) {
+	if(isFirstPoint(posX, posY)) {
 	    // need at least 4 points for a contour
-	    if(annotations[currentAnnotation].length() < minAnnotationPoints) {
+	    if(annotations[currentAnnotation].length < minAnnotationPoints) {
 		alert("You need at least 4 points to have a valid annotation");
 	    }
 	    else {
+		annotations[currentAnnotation].push({ X: posX, Y: posY });
 		drawLine(posX, posY);
 		clickNumber = 0;
 		++currentAnnotation;
+		alert('you finished this contour. You ' +
+		      'can start another one or submit the work');
 	    }
 	}
 	else {
+	    annotations[currentAnnotation].push({ X: posX, Y: posY });
 	    drawPoint(posX, posY);
 	    drawLine(posX, posY);
-	    clickNumber++;
+	    ++clickNumber;
 	}
     }
 });
 
+function hasEnoughPoints() {
+    var arrSize = annotations.length;
+    if(arrSize < 1) {
+	return false;
+    }
+    for(var i = 0; i < arrSize; ++i) {
+	if(annotations[i].length < minAnnotationPoints) {
+	    return false;
+	}
+    }
+    return true;
+}
+
 $('#submitButton').click(function() {
-    if(annotations.length < minAnnotationPoints) {
-	alert("You need at least 4 points to have a valid annotation");
+    if(hasEnoughPoints()) {
+	sendAnnotation();
     }
     else {
-	sendAnnotation();
+	alert("You need at least 4 points to have a valid label");
     }
 });
 
@@ -220,9 +245,14 @@ function sendAnnotation() {
 	dataType: 'json'
     }).done(function(data) {
 	if(data.response != null) {
-	    alert("Your validation code: " + data.response);
-	    $('#canvas').empty();
+	    $('#canvas').remove();
+	    $('#submitButton').remove();
+	    $('#directions').remove();
 	    cleanAnnotations();
+	    var thankYouHtml = '<h2> Thank you very much!<h2>';
+	    var responseCodeHtml = "<h1> Your validation code: " 
+		+ data.response + " </h1>";
+	    $('#main_content').append(thankYouHtml + responseCodeHtml);
 	}
 	else {
 	    prepareNewImage();
@@ -233,9 +263,13 @@ function sendAnnotation() {
 function cleanAnnotations() {
     // first empty the array
     while(annotations.length > 0) {
+	while(annotations[annotations.length-1].length > 0) {
+	    annotations[annotations.length-1].pop();
+	}
 	annotations.pop();
     }
     clickNumber = 0;
+    currentAnnotation = 0;
 }
 
 function prepareNewImage() {

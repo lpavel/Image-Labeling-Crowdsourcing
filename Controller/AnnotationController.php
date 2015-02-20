@@ -1,9 +1,9 @@
 <?php
 
-$path_to_model = '../Model/'
+define('PATH_TO_MODEL','../Model/');
 
-require($path_to_model . 'Image.php');
-require($path_to_model . 'Annotation.php');
+require_once(PATH_TO_MODEL . 'Image.php');
+require(PATH_TO_MODEL . 'Annotation.php');
 
 switch( $_SERVER['REQUEST_METHOD'] ) {
     
