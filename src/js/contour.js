@@ -198,9 +198,9 @@ $( '#canvas' ).click(function(e){
 		drawLine(posX, posY);
 		clickNumber = 0;
 		++currentAnnotation;
-		alert('you finished this contour. You ' +
+/*		alert('you finished this contour. You ' +
 		      'can start another one or submit the work');
-	    }
+*/	    }
 	}
 	else {
 	    annotations[currentAnnotation].push({ X: posX, Y: posY });
