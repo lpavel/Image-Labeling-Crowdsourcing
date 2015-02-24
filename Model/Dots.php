@@ -11,16 +11,17 @@ class Dots {
 
     private $dotsDb = null;
     private $sessionDb = null;
-
-    public function __construct($body) {
-        $this->image_index = $body['image_index'];
-        $this->session_id  = $body['session_id'];
-        $this->coordinates = $body['coordinates'];
     
-        $this->sessionDb = new SessionDb($this->session_id);
+    public function __construct($body = null) {
+        if(isset($body)) {
+            $this->image_index = $body['image_index'];
+            $this->session_id  = $body['session_id'];
+            $this->coordinates = $body['coordinates'];
+            $this->sessionDb = new SessionDb($this->session_id);
+        }
         $this->dotsDb = new DotsDb();
     }
-
+    
     public function saveDots() {
 
         self::writeFile();
