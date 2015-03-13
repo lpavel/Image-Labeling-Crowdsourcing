@@ -27,17 +27,24 @@ class HeatMap:
 
 
 if __name__ == '__main__':
-    numImages = {}
+    numImages = []
+    polygons = []
+    content = []
+    with open("resultsBlurred.txt") as f:
+        content = f.readlines()
+    
     #TODO: need to backtrack recursively for all combinations
     for imageNumber in range(0, 11):
-        files = []
-        with open("resultsBlurred.txt") as f:
-            content = f.readlines()
+        # very inefficient because the file gets read too many times
+        polygonsImage = []
         for line in content:
             if line.startswith("Image" +
                                str(imageNumber) + "-") is True:
-                files.append(line.strip('\n'))
                 polygon = Polygon("../results/BlurredContours/" + line.strip('\n'))
-#        print(files)
+                polygonsImage.append(polygon)
+
+        polygons.append(polygonsImage)
+#    print(polygons)
 
     #    heat_map.process_images()
+    

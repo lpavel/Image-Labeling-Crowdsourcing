@@ -11,15 +11,23 @@ class Polygon:
         
 #        pprint(data)
         for contour in data:
+            pointsInContour = []
             for line in contour:
-                self.points.append(( float(line["X"]), float(line["Y"])))
+                pointsInContour.append(( float(line["X"]), float(line["Y"])))
+            self.points.append(pointsInContour)
+#        print(self.points)
 
-        print(self.points)
-        for i in range(1,len(self.points)):
-            self.edges.append((self.points[i-1], self.points[i]))
-        self.edges.append((self.points[-1], self.points[0]))
-        print(self.edges)
+        for pointsInContour in self.points:
+            edgesInContour = []
+            for i in range(1,len(pointsInContour)):
+                edgesInContour.append((pointsInContour[i-1], pointsInContour[i]))
+            edgesInContour.append((pointsInContour[-1], pointsInContour[0]))
+            self.edges.append(edgesInContour)
+
         self.is_junk()
+
+        if self.junk is True:
+            print(imageName)
 
     def ccw(self,p1,p2,p3):
         p1X, p1Y = p1
@@ -34,16 +42,24 @@ class Polygon:
         
     def is_junk(self):
         intersections = 0
-        for i in range(len(self.edges) - 1):
-            for j in range(i+2, len(self.edges)):
-                if self.intersect(self.edges[i], self.edges[j]) == True:
+        allEdges = []
+        for edgesInContour in self.edges:
+            for edge in edgesInContour:
+                allEdges.append(edge)
+                
+#        print('intersections:')
+        for i in range(len(allEdges) - 1):
+            for j in range(i+2, len(allEdges)):
+                if self.intersect(allEdges[i], allEdges[j]) == True:
+#                    print('p1:' + str(allEdges[i]) +
+#                          'p2:' + str(allEdges[j]))
                     intersections = intersections + 1
 
         if intersections > 3:
             self.junk = True
         else:
             self.junk = False
-        print(self.junk)
+#        print(self.junk)
         
 if __name__ == '__main__':
     p = Polygon('../results/BlurredContours/Image0-10d2423eac08988b513ebbff7b6cd207.json')
