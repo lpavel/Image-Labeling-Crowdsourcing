@@ -6,18 +6,18 @@ class PolygonAnnotation:
     def __init__(self, imageName):
         jsonData = open(imageName)
         data = json.load(jsonData)
+        jsonData.close()
+        
         self.points = []
         self.edges  = []
         self.allPoints = []
         
-#        pprint(data)
         for contour in data:
             pointsInContour = []
             for line in contour:
                 pointsInContour.append(( float(line["X"]), float(line["Y"])))
                 self.allPoints.append(( float(line["X"]), float(line["Y"])))
             self.points.append(pointsInContour)
-#        print(self.points)
 
         for pointsInContour in self.points:
             edgesInContour = []
@@ -46,19 +46,16 @@ class PolygonAnnotation:
             for edge in edgesInContour:
                 allEdges.append(edge)
                 
-#        print('intersections:')
         for i in range(len(allEdges) - 1):
             for j in range(i+2, len(allEdges)):
                 if self.intersect(allEdges[i], allEdges[j]) == True:
-#                    print('p1:' + str(allEdges[i]) +
-#                          'p2:' + str(allEdges[j]))
                     intersections = intersections + 1
 
         if intersections > 3:
             self.junk = True
         else:
             self.junk = False
-#        print(self.junk)
+
         
 if __name__ == '__main__':
     p = Polygon('../results/BlurredContours/Image0-10d2423eac08988b513ebbff7b6cd207.json')

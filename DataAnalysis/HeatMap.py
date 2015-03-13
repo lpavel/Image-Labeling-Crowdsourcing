@@ -15,5 +15,4 @@ class HeatMap:
 
     def getHeat(self, polygon):
         ''' do the intelligence here '''
-                    
         

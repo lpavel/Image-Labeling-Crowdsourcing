@@ -3,19 +3,39 @@ from sets import Set
 #import numpy as np
 
 class BinaryMap:
+    '''
+    When isCache is False, it does regular read form results Json
+    When isCache is True, reads the results obtained running create_binary_map
+    before. Since create_binary_map takes a very long time, it has been tried to
+    optimized by running it once and saved the results.
+    '''
+    def __init__(self, fileName, points = None):
 
-    def __init__(self, imageName):
-        polygon = PolygonAnnotation(imageName)
-        self.junk = polygon.junk
-        if self.junk == False:
-            self.create_binary_map(polygon)
+        if points != True:
+            self.junk = False
+            self.interiorPoints = Set()
+            for point in points:
+                interiorPoints.add(point)                
+        else:
+            polygon = PolygonAnnotation(fileName)
+            self.junk = polygon.junk
+            if self.junk == False:
+                self.create_binary_map(polygon)
 
+    '''
+    The very expensive operation that finds out which points are insinde the
+    polygon created by the crowd. Goes through all points and stores only the
+    ones that are inside.
+    '''
     def create_binary_map(self,polygon):
-        self.interiorPoints = []
-        for i in range(0,900,1):
+        self.interiorPoints = Set()
+        for i in range(0, 900, 1):
             for j in range(0, 900, 1):
-                if self.point_inside_polygon(i,j,polygon.allPoints):
-                    self.interiorPoints.append((i,j))
+                for pointsInContour in polygon.points:
+                    if (i,j) not in self.interiorPoints: 
+                        if self.point_inside_polygon(i, j, pointsInContour):
+                            self.interiorPoints.add((i, j))
+
 
     '''    
     Next function is taken from the web:
