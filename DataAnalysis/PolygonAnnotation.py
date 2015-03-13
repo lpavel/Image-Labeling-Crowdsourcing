@@ -1,7 +1,7 @@
 import json
 from pprint import pprint
 
-class Polygon:
+class PolygonAnnotation:
 
     def __init__(self, imageName):
         jsonData = open(imageName)
@@ -27,9 +27,6 @@ class Polygon:
             self.edges.append(edgesInContour)
 
         self.is_junk()
-
-        if self.junk == True:
-            print(imageName)
 
     def ccw(self,p1,p2,p3):
         p1X, p1Y = p1

@@ -1,28 +1,21 @@
-from Polygon import Polygon
-
+from BinaryMap import BinaryMap
+from sets import Set
+import ast
 labeledImages = 1;
 
 class HeatMap:
 
-    def __init__(self, fileName):
-        self.polygon = Polygon(fileName)
-        self.heat = self.getHeat(self.polygon)
+    def __init__(self, binaryMaps):
+        self.heatMap = [ [0]*900 ] *900
+
+        for binaryMap in binaryMaps:
+            for x,y in binaryMap:
+                self.heatMap[x][y] = selfheatMap[x][y] + 1
+
 
     def getHeat(self, polygon):
         ''' do the intelligence here '''
-        
-
-    
-    def __init__(self, image_number):
-        self.files = []
-        
-
-    def process_images():
-        for file in self.files:
-            with open(file) as f:
-                json_str = f.readline()
-                
-            
+                    
         
 
 
@@ -32,7 +25,24 @@ if __name__ == '__main__':
     content = []
     with open("resultsBlurred.txt") as f:
         content = f.readlines()
-    
+
+    binaryMaps = []
+    #first need to cache all Binary Maps
+    for imageNumber in range(9, 11):
+        # very inefficient because the file gets read too many times
+        binaryMapsImage = []
+        for line in content:
+            if line.startswith("Image" +
+                               str(imageNumber) + "-") is True:
+                binaryMap = BinaryMap("../results/BlurredContours/" +
+                                            line.strip('\n'))
+                if binaryMap.junk == False:
+                    binaryMapsImage.append(binaryMap)
+        binaryMaps.append(binaryMapsImage)
+        pprint(binaryMaps)
+
+    '''
+        
     #TODO: need to backtrack recursively for all combinations
     for imageNumber in range(0, 11):
         # very inefficient because the file gets read too many times
@@ -48,3 +58,4 @@ if __name__ == '__main__':
     print(polygons)
     #    heat_map.process_images()
     
+    '''
