@@ -41,10 +41,10 @@ if __name__ == '__main__':
             if line.startswith("Image" +
                                str(imageNumber) + "-") is True:
                 polygon = Polygon("../results/BlurredContours/" + line.strip('\n'))
-                polygonsImage.append(polygon)
+                if polygon.junk == False:
+                    polygonsImage.append(polygon)
 
         polygons.append(polygonsImage)
-#    print(polygons)
-
+    print(polygons)
     #    heat_map.process_images()
     

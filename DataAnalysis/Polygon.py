@@ -8,12 +8,14 @@ class Polygon:
         data = json.load(jsonData)
         self.points = []
         self.edges  = []
+        self.allPoints = []
         
 #        pprint(data)
         for contour in data:
             pointsInContour = []
             for line in contour:
                 pointsInContour.append(( float(line["X"]), float(line["Y"])))
+                self.allPoints.append(( float(line["X"]), float(line["Y"])))
             self.points.append(pointsInContour)
 #        print(self.points)
 
@@ -26,7 +28,7 @@ class Polygon:
 
         self.is_junk()
 
-        if self.junk is True:
+        if self.junk == True:
             print(imageName)
 
     def ccw(self,p1,p2,p3):
