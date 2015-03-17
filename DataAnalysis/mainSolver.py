@@ -26,23 +26,4 @@ if __name__ == '__main__':
         binaryMaps.append(binaryMapsImage)
 
     # at this point HeatMap should definitely be doable
-
-
-    '''
-        
-    #TODO: need to backtrack recursively for all combinations
-    for imageNumber in range(0, 11):
-        # very inefficient because the file gets read too many times
-        polygonsImage = []
-        for line in content:
-            if line.startswith("Image" +
-                               str(imageNumber) + "-") is True:
-                polygon = Polygon("../results/BlurredContours/" + line.strip('\n'))
-                if polygon.junk == False:
-                    polygonsImage.append(polygon)
-
-        polygons.append(polygonsImage)
-    print(polygons)
-    #    heat_map.process_images()
     
-    '''

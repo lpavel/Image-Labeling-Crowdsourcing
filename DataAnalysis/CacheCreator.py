@@ -12,8 +12,6 @@ def printBinaryMaps(binaryMaps):
             print( str(x) + " " + str(y))
 
 if __name__ == '__main__':
-    numImages = []
-    polygons = []
     content = []
     with open("resultsBlurred.txt") as f:
         content = f.readlines()
