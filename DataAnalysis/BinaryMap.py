@@ -11,7 +11,7 @@ class BinaryMap:
     '''
     def __init__(self, fileName, points = None):
 
-        if points != True:
+        if points == True:
             self.junk = False
             self.interiorPoints = Set()
             for point in points:
@@ -61,3 +61,5 @@ class BinaryMap:
 
 if __name__ == '__main__':
     b = BinaryMap('../results/BlurredContours/Image0-10d2423eac08988b513ebbff7b6cd207.json')
+    print b.interiorPoints
+    print len(b.interiorPoints)

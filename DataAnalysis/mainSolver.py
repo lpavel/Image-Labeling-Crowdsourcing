@@ -2,7 +2,6 @@ from BinaryMap import BinaryMap
 from HeatMap import HeatMap
 from sets import Set
 
-
 if __name__ == '__main__':
     content = []
     with open("resultsBlurred.txt") as f:
@@ -10,7 +9,7 @@ if __name__ == '__main__':
     lineNumber = 0
     numImages = content[lineNumber]
     lineNumber += 1
-    binaryMaps = []
+    binaryMaps = []    
     for i in range(1, numImages):
         binaryMapsImage = []
         numAnnotations = content[lineNumber]
@@ -27,7 +26,7 @@ if __name__ == '__main__':
         binaryMaps.append(binaryMapsImage)
 
     # at this point HeatMap should definitely be doable
-                
+
 
     '''
         
