@@ -2,7 +2,7 @@ from BinaryMap import BinaryMap
 from HeatMap import HeatMap
 from sets import Set
 
-imageNumber = 0
+imageNumber = 10
 
 def printBinaryMaps(binaryMaps):
     print(len(binaryMaps))

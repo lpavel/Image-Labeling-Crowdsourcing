@@ -11,17 +11,18 @@ class BinaryMap:
     '''
     def __init__(self, fileName, points = None):
 
-        if points == True:
-            self.junk = False
-            self.interiorPoints = Set()
-            for point in points:
-                interiorPoints.add(point)                
-        else:
+        if points == None:
             polygon = PolygonAnnotation(fileName)
             self.junk = polygon.junk
             if self.junk == False:
                 self.create_binary_map(polygon)
+        else:
+            self.junk = False
+            self.interiorPoints = Set()
+            for point in points:
+                interiorPoints.add(point)                
 
+                
     '''
     The very expensive operation that finds out which points are insinde the
     polygon created by the crowd. Goes through all points and stores only the
