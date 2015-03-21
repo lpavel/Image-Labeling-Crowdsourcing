@@ -60,6 +60,18 @@ class BinaryMap:
         
         return inside
 
+
+
+    def compareBinaryMaps(self, otherBinaryMap):
+        commonPoints = 0
+        for point in self.interiorPoints:
+            if point in otherBinaryMap.interiorPoints:
+                commonPoints += 1
+
+        differentPoints = len(self.interiorPoints) + len(otherBinaryMap.interiorPoints) - (2* commonPoints)
+        return 1 - (differentPoints / 
+                
+    
 if __name__ == '__main__':
     b = BinaryMap('../results/BlurredContours/Image0-10d2423eac08988b513ebbff7b6cd207.json')
     print b.interiorPoints
