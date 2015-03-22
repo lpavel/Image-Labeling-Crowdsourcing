@@ -69,7 +69,7 @@ class BinaryMap:
                 commonPoints += 1
 
         differentPoints = len(self.interiorPoints) + len(otherBinaryMap.interiorPoints) - (2* commonPoints)
-        return 1 - (differentPoints / 
+        return 1 - (differentPoints / (900*900))
                 
     
 if __name__ == '__main__':

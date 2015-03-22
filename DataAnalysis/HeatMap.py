@@ -16,11 +16,11 @@ class HeatMap:
                 if (x,y) not in nonZeroSet:
                     nonZeroSet.add((x,y))
                 self.heatMap[x][y] = selfheatMap[x][y] + 1
-        createBinaryFromHeat()
 
     def createBinaryFromHeat():
-        self.binaryMap = [ [0]*900 ] *900
+        binaryMapPoints = []
         for x,y in self.nonZeroSet:
             if self.heatMap[x][y] < int(self.totalMaps/3):
-                self.binaryMap[x][y] = 1
-                        
+                binaryMapPoints.append((x,y))
+
+        self.binaryMap = BinaryMap(None, binaryMapPoints)
