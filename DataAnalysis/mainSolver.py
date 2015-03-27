@@ -12,7 +12,7 @@ if __name__ == '__main__':
     # this thing can be automated for all images
     binaryMaps = CacheLoader(imageNumber)
     heatMap = HeatMap(binaryMaps)
-    groundTruthMap = BinaryMaps(truthFileName + str(imageNumber))
+    groundTruthMap = BinaryMaps(truthFileName + str(imageNumber) + '.txt')
     
     accuracy = heatMap.compareBinaryMaps(groundTruthMap)
     print(accuracy)
