@@ -6,15 +6,16 @@ from itertools import combinations
 
 imageNumber = 0
 #TODO: make a convention out of this
-truthFileName = 'GroudTruth-'
+truthFileName = 'GroundTruths/GroudTruth-'
 
 if __name__ == '__main__':
     # this thing can be automated for all images
     binaryMaps = CacheLoader(imageNumber)
     heatMap = HeatMap(binaryMaps)
-    groundTruthMap = BinaryMaps(truthFileName + str(imageNumber) + '.txt')
-    
-    accuracy = heatMap.compareBinaryMaps(groundTruthMap)
+    heatMap.createBinaryFromHeat()
+    groundTruthMap = BinaryMap(truthFileName + str(imageNumber))
+    accuracy = heatMap.binaryMap.compareBinaryMaps(groundTruthMap)
+
     print(accuracy)
 
     
