@@ -20,7 +20,7 @@ class BinaryMap:
             self.junk = False
             self.interiorPoints = Set()
             for point in points:
-                interiorPoints.add(point)                
+                self.interiorPoints.add(point)                
 
                 
     '''
@@ -64,15 +64,20 @@ class BinaryMap:
 
     def compareBinaryMaps(self, otherBinaryMap):
         commonPoints = 0
+#        print(self.interiorPoints)
         for point in self.interiorPoints:
             if point in otherBinaryMap.interiorPoints:
                 commonPoints += 1
-
+    
         differentPoints = len(self.interiorPoints) + len(otherBinaryMap.interiorPoints) - (2* commonPoints)
-        return 1 - (differentPoints / (900*900))
+        totalPoints = len(self.interiorPoints) + len(otherBinaryMap.interiorPoints)
+        print(commonPoints)
+        print(differentPoints)
+        print(totalPoints)
+        return 1 - (float(differentPoints) / (totalPoints))
                 
     
 if __name__ == '__main__':
     b = BinaryMap('../results/BlurredContours/Image0-10d2423eac08988b513ebbff7b6cd207.json')
-    print b.interiorPoints
-    print len(b.interiorPoints)
+    print (b.interiorPoints)
+    print (len(b.interiorPoints))
