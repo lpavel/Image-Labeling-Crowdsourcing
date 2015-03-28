@@ -71,9 +71,6 @@ class BinaryMap:
     
         differentPoints = len(self.interiorPoints) + len(otherBinaryMap.interiorPoints) - (2* commonPoints)
         totalPoints = len(self.interiorPoints) + len(otherBinaryMap.interiorPoints)
-        print(commonPoints)
-        print(differentPoints)
-        print(totalPoints)
         return 1 - (float(differentPoints) / (totalPoints))
                 
     
