@@ -13,7 +13,7 @@ def printBinaryMaps(binaryMaps):
 
 if __name__ == '__main__':
     content = []
-    with open("resultsBlurred.txt") as f:
+    with open("resultsOriginal.txt") as f:
         content = f.readlines()
 
     binaryMaps = []
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     for line in content:
         if line.startswith("Image" +
                            str(imageNumber) + "-") is True:
-            binaryMap = BinaryMap("../results/BlurredContours/" +
+            binaryMap = BinaryMap("../results/OriginalContours/" +
                                   line.strip('\n'))
             if binaryMap.junk == False:
                 binaryMaps.append(binaryMap)

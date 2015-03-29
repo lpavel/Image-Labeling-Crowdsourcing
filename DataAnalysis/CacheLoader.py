@@ -6,7 +6,7 @@ class CacheLoader:
 
     def __init__(self, imageNumber):
         content = []
-        with open("../results/ResultsCache/Cache" + str(imageNumber) + ".txt") as f:
+        with open("../results/ResultsCacheOriginal/Cache" + str(imageNumber) + ".txt") as f:
             content = f.readlines()
 
         self.binaryMaps = []

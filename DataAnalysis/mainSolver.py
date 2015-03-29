@@ -4,7 +4,7 @@ from sets import Set
 from CacheLoader import CacheLoader
 from itertools import combinations
 
-imageNumber = 2
+imageNumber = 10
 truthFileName = '../results/GroundTruths/GroundTruth-'
 
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     groundTruthMap = BinaryMap(truthFileName + str(imageNumber) + '.json')
     accuracies = []
     totalMaps = len(binaryMaps)
-    for i in range(1,totalMaps):
+    for i in range(1,totalMaps+1):
         totalAccuracy = 0
         for subset in combinations(range(len(binaryMaps)), i):
             binaryMapsSubset = []
