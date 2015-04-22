@@ -17,7 +17,19 @@ var images = [
     createImage("../img/Image7.jpg",  "Image7"),
     createImage("../img/Image8.jpg",  "Image8"),
     createImage("../img/Image9.jpg",  "Image9"),
-    createImage("../img/Image10.jpg", "Image10")
+    createImage("../img/Image10.jpg", "Image10"),
+    createImage("../img/Image11.jpg", "Image11"),
+    createImage("../img/Image12.jpg", "Image12"),
+    createImage("../img/Image13.jpg", "Image13"),
+    createImage("../img/Image14.jpg", "Image14"),
+    createImage("../img/Image15.jpg", "Image15"),
+    createImage("../img/Image16.jpg", "Image16"),
+    createImage("../img/Image17.jpg", "Image17"),
+    createImage("../img/Image18.jpg", "Image18"),
+    createImage("../img/Image19.jpg", "Image19"),
+    createImage("../img/Image20.jpg", "Image20"),
+    createImage("../img/Image21.jpg", "Image21"),
+    createImage("../img/Image22.jpg", "Image22")
 ];
 
 var minAnnotationPoints = 4;
@@ -225,12 +237,12 @@ function hasEnoughPoints() {
 }
 
 $('#submitButton').click(function() {
-    if(hasEnoughPoints()) {
+//    if(hasEnoughPoints()) {
 	sendAnnotation();
-    }
+/*    }
     else {
 	alert("You need at least 4 points to have a valid label");
-    }
+    }*/
 });
 
 function sendAnnotation() {

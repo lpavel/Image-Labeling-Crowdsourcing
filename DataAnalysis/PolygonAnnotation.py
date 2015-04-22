@@ -56,7 +56,7 @@ class PolygonAnnotation:
         else:
             self.junk = False
 
-        
+
 if __name__ == '__main__':
     p = Polygon('../results/BlurredContours/Image0-10d2423eac08988b513ebbff7b6cd207.json')
     

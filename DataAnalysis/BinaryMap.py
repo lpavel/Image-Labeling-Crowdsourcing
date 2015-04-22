@@ -1,6 +1,7 @@
 from PolygonAnnotation import PolygonAnnotation
 from sets import Set
-#import numpy as np
+import json
+from pprint import pprint
 
 class BinaryMap:
     '''
@@ -12,10 +13,10 @@ class BinaryMap:
     def __init__(self, fileName, points = None):
 
         if points == None:
-            polygon = PolygonAnnotation(fileName)
-            self.junk = polygon.junk
+            self.polygon = PolygonAnnotation(fileName)
+            self.junk = self.polygon.junk
             if self.junk == False:
-                self.create_binary_map(polygon)
+                self.create_binary_map()
         else:
             self.junk = False
             self.interiorPoints = Set()
@@ -28,11 +29,11 @@ class BinaryMap:
     polygon created by the crowd. Goes through all points and stores only the
     ones that are inside.
     '''
-    def create_binary_map(self,polygon):
+    def create_binary_map(self):
         self.interiorPoints = Set()
         for i in range(0, 900, 1):
             for j in range(0, 900, 1):
-                for pointsInContour in polygon.points:
+                for pointsInContour in self.polygon.points:
                     if (i,j) not in self.interiorPoints: 
                         if self.point_inside_polygon(i, j, pointsInContour):
                             self.interiorPoints.add((i, j))
@@ -68,12 +69,15 @@ class BinaryMap:
         for point in self.interiorPoints:
             if point in otherBinaryMap.interiorPoints:
                 commonPoints += 1
-    
+        '''
         differentPoints = len(self.interiorPoints) + len(otherBinaryMap.interiorPoints) - (2* commonPoints)
         totalPoints = len(self.interiorPoints) + len(otherBinaryMap.interiorPoints)
         return 1 - (float(differentPoints) / (totalPoints))
-                
-    
+        '''
+        if commonPoints == 0:
+            return 0
+        return float(commonPoints)/len(self.interiorPoints)
+        
 if __name__ == '__main__':
     b = BinaryMap('../results/BlurredContours/Image0-10d2423eac08988b513ebbff7b6cd207.json')
     print (b.interiorPoints)

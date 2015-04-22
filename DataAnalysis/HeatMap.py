@@ -20,7 +20,7 @@ class HeatMap:
     def createBinaryFromHeat(self):
         binaryMapPoints = []
         for x,y in self.nonZeroSet:
-            if self.heatMap[(x,y)] > int(self.totalMaps/3):
+            if self.heatMap[(x,y)] > int(self.totalMaps/2):
                 binaryMapPoints.append((x,y))
 
         self.binaryMap = BinaryMap(None, binaryMapPoints)
